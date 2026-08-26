@@ -19,6 +19,7 @@ GLOBAL="${XDG_CONFIG_HOME:-$HOME}/.config/opencode"
 LINKS=(
   "opencode.json:opencode.json"
   "tui.json:tui.json"
+  "AGENTS.md:AGENTS.md"
   ".opencode/agents:agents"
   ".opencode/commands:commands"
   ".opencode/instructions:instructions"

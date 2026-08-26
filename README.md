@@ -34,6 +34,7 @@ Symlinks the repo's OpenCode config into `~/.config/opencode/` so every OpenCode
 |---|---|
 | `opencode.json` | `opencode.json` |
 | `tui.json` | `tui.json` |
+| `AGENTS.md` | `AGENTS.md` |
 | `.opencode/agents` | `agents` |
 | `.opencode/commands` | `commands` |
 | `.opencode/instructions` | `instructions` |
@@ -53,6 +54,20 @@ After `mise install`, finish with:
 ```bash
 source ~/.zshrc    # or open a new shell
 ```
+
+### Verify the install
+
+If you want to confirm that `~/.config/opencode/` is set up correctly (all
+expected symlinks in place, every `instructions` path in `opencode.json`
+resolves to an existing file):
+
+```bash
+bin/verify-install.sh
+```
+
+Exits `0` and prints `OK` on success, `1` and prints `FAIL` if any symlink
+is missing or broken, or any instruction path is unresolvable. Safe to run
+any time, read-only.
 
 ## Uninstall
 
@@ -84,7 +99,8 @@ opencode-setup/
 ├── mise.toml                  # postinstall hooks
 ├── bin/
 │   ├── setup-zshrc.sh         # idempotent zshrc + zshenv patcher
-│   └── setup-opencode.sh      # idempotent symlink installer for ~/.config/opencode
+│   ├── setup-opencode.sh      # idempotent symlink installer for ~/.config/opencode
+│   └── verify-install.sh      # post-install audit (symlinks + instructions paths)
 ├── .opencode/
 │   ├── instructions/          # shared rules injected via opencode.json
 │   ├── agents/                # custom agents
