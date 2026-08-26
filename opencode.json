@@ -12,5 +12,11 @@
     "bash": "ask",
     "webfetch": "ask",
     "websearch": "allow"
+  },
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "preserve_recent_tokens": 4000,
+    "reserved": 2000
   }
 }
