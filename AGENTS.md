@@ -20,3 +20,29 @@ Centralized, version-controlled OpenCode config: agents, subagents, skills, comm
 - Agents/subagents/skills/plugins/MCP servers/permission rules live under `.opencode/`.
 - Verify any new agent or skill loads: run `opencode` and confirm it appears.
 - Do not introduce build, lint, or test workflows unless the repo actually needs them — currently there are none.
+
+## Reducing agent hallucinations
+
+This repo uses empirically-validated patterns to reduce LLM hallucinations
+in code generation tasks. Full details and sources in
+`.opencode/instructions/anti-hallucination.md`. The core rules:
+
+- Prefer **retrieval-led reasoning over pre-training-led reasoning** —
+  consult files in the repo before relying on training data.
+- Use **decision tables** for ambiguity (multiple reasonable approaches).
+- Use **real-code examples** of 3-10 lines, copied from this repo.
+- Pair every **"Don't"** with a **"Do"**.
+- For multi-step tasks, write **numbered procedural workflows**.
+- **Test before claiming done** (`bash -n` on shell scripts, `git grep` for
+  secrets).
+- **Quote sources** when citing patterns or numbers; do not paraphrase
+  from memory.
+
+Explicitly avoided (measured to hurt performance in arxiv 2602.11988 and
+Augment's internal study):
+
+- Repository arch overview sections
+- Files longer than 150 lines
+- LLM-generated context files
+- Bare "don'ts" without paired "dos"
+- One-line "do not hallucinate" directives
