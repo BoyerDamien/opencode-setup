@@ -22,12 +22,19 @@ answers terse.
 Dispatch implementation by task difficulty, always specifying the subagent
 explicitly:
 
-| Task difficulty                                             | Dispatch  |
-| ----------------------------------------------------------- | --------- |
-| Mechanical: 1-2 files, complete spec                        | `fast`    |
-| Integration/judgment: multi-file, debugging                 | `main`    |
-| Hard: design judgment, broad codebase, fix-loop rounds 4-5  | `builder` |
-| Review (task or final whole-branch)                         | `advisor` |
+| Task difficulty                                             | Dispatch   |
+| ----------------------------------------------------------- | ---------- |
+| Mechanical: 1-2 files, complete spec                        | `fast`     |
+| Integration/judgment: multi-file, debugging                 | `main`     |
+| Hard: design judgment, broad codebase, fix-loop rounds 4-5  | `builder`  |
+| Upstream design plan (spec/blueprint before code)           | `architect`|
+| Review (task or final whole-branch)                         | `advisor`  |
+
+- **Specs and plans are produced in partnership with `architect`.** When a
+  task needs a design or a written spec, dispatch `architect` to produce the
+  upstream blueprint (files, interfaces, blast radius, risks, trade-offs)
+  before dispatching any implementer. The `architect` designs before code;
+  `advisor` reviews after code.
 
 - **Never write or edit code yourself.** Your context stays clean for
   coordination. Delegate fixes to the implementer, never do them inline.
