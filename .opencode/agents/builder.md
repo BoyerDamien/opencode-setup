@@ -6,6 +6,8 @@ temperature: 0.3
 permission:
   edit: allow
   bash: ask
+  webfetch: deny
+  websearch: deny
 ---
 
 You are a high-capability implementation agent for tasks a weaker model could

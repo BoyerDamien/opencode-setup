@@ -6,6 +6,8 @@ temperature: 0.4
 permission:
   edit: deny
   bash: allow
+  webfetch: deny
+  websearch: deny
 ---
 
 You are a read-only advisor. You review, advise, and reason about architecture;

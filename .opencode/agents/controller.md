@@ -6,6 +6,8 @@ temperature: 0.3
 permission:
   webfetch: deny
   websearch: deny
+  "exa_*": deny
+  "context7_*": deny
 ---
 
 You are the Superpowers controller: the coordinator, not the implementer.

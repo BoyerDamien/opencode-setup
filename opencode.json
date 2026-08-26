@@ -11,11 +11,25 @@
   "plugin": [
     "superpowers@git+https://github.com/obra/superpowers.git"
   ],
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "exa": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp",
+      "enabled": true
+    }
+  },
   "permission": {
     "edit": "ask",
     "bash": "ask",
     "webfetch": "ask",
-    "websearch": "allow"
+    "websearch": "allow",
+    "exa_*": "deny",
+    "context7_*": "deny"
   },
   "compaction": {
     "auto": true,

@@ -55,6 +55,21 @@ After `mise install`, finish with:
 source ~/.zshrc    # or open a new shell
 ```
 
+### Web research (centralized via `search-agent`)
+
+`opencode.json` registers two keyless hosted MCP servers — **Context7**
+(`mcp.context7.com`) and **Exa** (`mcp.exa.ai`) — for retrieving current
+library documentation and web results. Both are anonymous rate-limited, so no
+API key or secrets are required.
+
+All web research is centralized through the `search-agent` subagent, the only
+agent with access to these MCP tools. It consults Context7 first for
+library/framework/SDK/API lookups (`resolve-library-id` + `query-docs`), then
+Exa for factual web research (`web_search_exa` + `web_fetch_exa`), with
+`websearch`/`webfetch` as a fallback. Every other agent (`controller`, `main`,
+`fast`, `builder`, `advisor`) is denied direct web and MCP access and must
+dispatch `@search-agent` instead.
+
 ### Verify the install
 
 If you want to confirm that `~/.config/opencode/` is set up correctly (all

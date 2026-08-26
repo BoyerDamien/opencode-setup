@@ -3,6 +3,9 @@ description: Standard-tier implementer (Sonnet-equivalent, deepseek-v4-pro). Dis
 mode: subagent
 model: ollama-cloud/deepseek-v4-pro
 temperature: 0.3
+permission:
+  webfetch: deny
+  websearch: deny
 ---
 
 You are the default development agent. Follow `pedagogic-style.md` for any
