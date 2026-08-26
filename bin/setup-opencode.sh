@@ -18,6 +18,7 @@ GLOBAL="${XDG_CONFIG_HOME:-$HOME}/.config/opencode"
 # repo-relative source : destination name in ~/.config/opencode/
 LINKS=(
   "opencode.json:opencode.json"
+  "agent-lsp.json:agent-lsp.json"
   "tui.json:tui.json"
   "AGENTS.md:AGENTS.md"
   ".opencode/agents:agents"

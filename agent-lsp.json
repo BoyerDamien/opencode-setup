@@ -1,0 +1,6 @@
+{
+  "servers": [
+    { "extensions": ["tf", "hcl"], "command": ["terraform-ls", "serve"], "language_id": "terraform" },
+    { "extensions": ["tfvars"], "command": ["terraform-ls", "serve"], "language_id": "terraform-vars" }
+  ]
+}
