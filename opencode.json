@@ -45,6 +45,11 @@
       "type": "remote",
       "url": "https://mcp.linear.app/mcp",
       "enabled": true
+    },
+    "lsp": {
+      "type": "local",
+      "command": ["/home/dboyer/.local/share/mise/shims/agent-lsp", "--config", "/home/dboyer/.config/opencode/agent-lsp.json"],
+      "enabled": true
     }
   },
   "permission": {
