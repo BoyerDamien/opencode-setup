@@ -70,6 +70,17 @@ Exa for factual web research (`web_search_exa` + `web_fetch_exa`), with
 `fast`, `builder`, `advisor`) is denied direct web and MCP access and must
 dispatch `@search-agent` instead.
 
+### Terraform navigation (LSP)
+
+La navigation Terraform (`lsp_*`) nécessite un binaire `terraform` ou `tofu`
+sur le PATH et un `terraform init` dans le workspace cible. Ces prérequis sont
+la responsabilité du repo cible, pas de `opencode-setup`.
+
+> **Portabilité** : le serveur `mcp.lsp` dans `opencode.json` pointe vers des
+> chemins absolus (`/home/dboyer/.local/share/mise/shims/agent-lsp` et
+> `/home/dboyer/.config/opencode/agent-lsp.json`). Si le repo est cloné dans un
+> autre `$HOME`, mettre à jour ces deux chemins dans `opencode.json`.
+
 ### Verify the install
 
 If you want to confirm that `~/.config/opencode/` is set up correctly (all
