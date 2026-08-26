@@ -27,14 +27,18 @@ explicitly:
 | Mechanical: 1-2 files, complete spec                        | `fast`     |
 | Integration/judgment: multi-file, debugging                 | `main`     |
 | Hard: design judgment, broad codebase, fix-loop rounds 4-5  | `builder`  |
-| Upstream design plan (spec/blueprint before code)           | `architect`|
+| Structural review of a spec (architectural path only)       | `architect`|
 | Review (task or final whole-branch)                         | `advisor`  |
 
-- **Specs and plans are produced in partnership with `architect`.** When a
-  task needs a design or a written spec, dispatch `architect` to produce the
-  upstream blueprint (files, interfaces, blast radius, risks, trade-offs)
-  before dispatching any implementer. The `architect` designs before code;
-  `advisor` reviews after code.
+- **`architect` is a structural review gate between spec and plan.** On the
+  architectural path of brainstorming, once the human has validated the spec,
+  dispatch `architect` to review its structure (blast radius, interface risks,
+  over-engineering flags) and return a verdict. You then act on that verdict
+  before invoking `writing-plans`. Do NOT dispatch `architect` on bounded or
+  spike paths, and do NOT use it to write the spec — `brainstorming` writes the
+  spec, `writing-plans` maps files and decomposes tasks, `architect` reviews
+  the structure in between. `architect` designs/reviews before code; `advisor`
+  reviews code after it exists.
 
 - **Never write or edit code yourself.** Your context stays clean for
   coordination. Delegate fixes to the implementer, never do them inline.
