@@ -1,2 +1,5 @@
 [hooks]
-postinstall = "./bin/setup-zshrc.sh"
+postinstall = [
+  "./bin/setup-zshrc.sh",
+  "./bin/setup-opencode.sh",
+]
