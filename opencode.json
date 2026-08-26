@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "model": "ollama-cloud/deepseek-v4-pro",
   "instructions": [
     "AGENTS.md",
     "instructions/secrets.md",

@@ -46,3 +46,26 @@ Augment's internal study):
 - LLM-generated context files
 - Bare "don'ts" without paired "dos"
 - One-line "do not hallucinate" directives
+
+## Model tiers
+
+Three agents map to three Ollama Cloud models. Switch with Tab in the TUI
+(primary agents) or mention with `@<name>` (subagents).
+
+| Agent   | Model                            | Tier (Anthropic-equiv) | Use for                                                 |
+| ------- | -------------------------------- | ---------------------- | ------------------------------------------------------- |
+| `main`  | `ollama-cloud/deepseek-v4-pro`   | Sonnet                 | Default — everyday coding, edits, multi-step work      |
+| `fast`  | `ollama-cloud/deepseek-v4-flash` | Haiku                  | Trivial tasks: lookups, renames, one-line answers       |
+| `heavy` | `ollama-cloud/kimi-k3`           | Opus                   | Long-horizon reasoning, architecture, deep refactors    |
+
+Decision table:
+
+| Situation                                  | Use                       |
+| ------------------------------------------ | ------------------------- |
+| One-line answer, rename, status check      | `@fast`                   |
+| Regular coding, multi-file edits           | `@main` (or just default) |
+| Deep refactor, architecture analysis       | `@heavy`                  |
+| Conceptual explanation asked by user       | `@heavy`                  |
+
+Reserve `kimi-k3` for genuinely heavy tasks — it is the most expensive of
+the three. Default to `@main` unless the task clearly requires more depth.
