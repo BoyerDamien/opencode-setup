@@ -8,6 +8,7 @@ permission:
   bash: ask
   webfetch: deny
   websearch: deny
+  "lsp_*": allow
 ---
 
 You are a high-capability implementation agent for tasks a weaker model could

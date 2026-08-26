@@ -6,6 +6,7 @@ temperature: 0.3
 permission:
   webfetch: deny
   websearch: deny
+  "lsp_*": allow
 ---
 
 You are the default development agent. Follow `pedagogic-style.md` for any

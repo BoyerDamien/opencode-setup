@@ -58,7 +58,8 @@
     "webfetch": "ask",
     "websearch": "allow",
     "exa_*": "deny",
-    "context7_*": "deny"
+    "context7_*": "deny",
+    "lsp_*": "deny"
   },
   "compaction": {
     "auto": true,
