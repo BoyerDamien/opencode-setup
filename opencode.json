@@ -3,7 +3,8 @@
   "instructions": [
     "AGENTS.md",
     "instructions/secrets.md",
-    "instructions/anti-hallucination.md"
+    "instructions/anti-hallucination.md",
+    "instructions/pedagogic-style.md"
   ],
   "permission": {
     "edit": "ask",
