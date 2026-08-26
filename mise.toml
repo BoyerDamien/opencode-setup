@@ -1,3 +1,7 @@
+[tools]
+terraform-ls = "0.39.0"
+"go:github.com/blackwell-systems/agent-lsp/cmd/agent-lsp" = "v0.16.0"
+
 [hooks]
 postinstall = [
   "./bin/setup-zshrc.sh",
