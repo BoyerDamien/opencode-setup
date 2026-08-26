@@ -72,14 +72,14 @@ dispatch `@search-agent` instead.
 
 ### Terraform navigation (LSP)
 
-La navigation Terraform (`lsp_*`) nécessite un binaire `terraform` ou `tofu`
-sur le PATH et un `terraform init` dans le workspace cible. Ces prérequis sont
-la responsabilité du repo cible, pas de `opencode-setup`.
+Terraform navigation (`lsp_*`) requires a `terraform` or `tofu` binary on
+the PATH and a `terraform init` in the target workspace. These prerequisites
+are the responsibility of the target repo, not of `opencode-setup`.
 
-> **Portabilité** : le serveur `mcp.lsp` dans `opencode.json` pointe vers des
-> chemins absolus (`/home/dboyer/.local/share/mise/shims/agent-lsp` et
-> `/home/dboyer/.config/opencode/agent-lsp.json`). Si le repo est cloné dans un
-> autre `$HOME`, mettre à jour ces deux chemins dans `opencode.json`.
+> **Portability**: the `mcp.lsp` server in `opencode.json` points to absolute
+> paths (`/home/dboyer/.local/share/mise/shims/agent-lsp` and
+> `/home/dboyer/.config/opencode/agent-lsp.json`). If the repo is cloned into a
+> different `$HOME`, update both of these paths in `opencode.json`.
 
 ### Verify the install
 

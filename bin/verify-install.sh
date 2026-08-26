@@ -40,6 +40,7 @@ missing=0
 #    to a path inside the repo.
 expected_paths=(
   "opencode.json"
+  "agent-lsp.json"
   "tui.json"
   "AGENTS.md"
   "agents"
