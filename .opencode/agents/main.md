@@ -1,6 +1,6 @@
 ---
-description: Default daily agent (Sonnet-equivalent, deepseek-v4-pro). Use for everyday coding tasks.
-mode: primary
+description: Standard-tier implementer (Sonnet-equivalent, deepseek-v4-pro). Dispatched as a subagent by the controller for integration/judgment tasks (multi-file coordination, pattern matching, debugging).
+mode: subagent
 model: ollama-cloud/deepseek-v4-pro
 temperature: 0.3
 ---

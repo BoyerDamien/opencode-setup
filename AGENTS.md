@@ -49,24 +49,27 @@ Augment's internal study):
 
 ## Model tiers
 
-Three agents map to three Ollama Cloud models. Switch with Tab in the TUI
-(primary agents) or mention with `@<name>` (subagents).
+Superpowers runs a controller that delegates implementation to tiered
+subagents. The `controller` is the primary agent; the rest are subagents it
+dispatches via the `task` tool.
 
-| Agent     | Model                            | Tier (Anthropic-equiv) | Use for                                                 |
-| --------- | -------------------------------- | ---------------------- | ------------------------------------------------------- |
-| `main`    | `ollama-cloud/deepseek-v4-pro`   | Sonnet                 | Default — everyday coding, edits, multi-step work      |
-| `fast`    | `ollama-cloud/deepseek-v4-flash` | Haiku                  | Trivial tasks: lookups, renames, one-line answers       |
-| `advisor` | `ollama-cloud/kimi-k3`           | Opus                   | Read-only review, advice, architecture (never edits)    |
+| Agent        | Model                            | Tier (Anthropic-equiv) | Role                                                    |
+| ------------ | -------------------------------- | ---------------------- | ------------------------------------------------------- |
+| `controller` | `ollama-cloud/deepseek-v4-pro`   | Sonnet                 | Primary — coordinates, reads plan, dispatches, never codes |
+| `main`       | `ollama-cloud/deepseek-v4-pro`   | Sonnet                 | Standard implementer: integration, multi-file, debugging |
+| `fast`       | `ollama-cloud/deepseek-v4-flash` | Haiku                  | Mechanical implementer: 1-2 files, complete spec         |
+| `builder`    | `ollama-cloud/kimi-k3`           | Opus                   | Hard implementer: design judgment, fix-loop rounds 4-5   |
+| `advisor`    | `ollama-cloud/kimi-k3`           | Opus                   | Read-only review, advice, architecture (never edits)     |
 
-Decision table:
+Decision table (Superpowers "Model Selection"):
 
-| Situation                                  | Use                       |
-| ------------------------------------------ | ------------------------- |
-| One-line answer, rename, status check      | `@fast`                   |
-| Regular coding, multi-file edits           | `@main` (or just default) |
-| Review, advice, architecture analysis      | `@advisor`                |
-| Conceptual explanation asked by user       | `@advisor`                |
+| Task difficulty                                   | Dispatch  |
+| ------------------------------------------------- | --------- |
+| Mechanical: 1-2 files, complete spec              | `fast`    |
+| Integration/judgment: multi-file, debugging       | `main`    |
+| Hard: design judgment, broad codebase, escalation | `builder` |
+| Review (task or final whole-branch)               | `advisor` |
 
 The `advisor` is read-only: it can read files and run read-only commands, but
-never modifies anything. Default to `@main` unless the task clearly requires
-more depth.
+never modifies anything. The `controller` never writes code itself — it
+delegates everything and keeps its context clean for coordination.

@@ -1,11 +1,15 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "ollama-cloud/deepseek-v4-pro",
+  "default_agent": "controller",
   "instructions": [
     "AGENTS.md",
     "instructions/secrets.md",
     "instructions/anti-hallucination.md",
     "instructions/pedagogic-style.md"
+  ],
+  "plugin": [
+    "superpowers@git+https://github.com/obra/superpowers.git"
   ],
   "permission": {
     "edit": "ask",
