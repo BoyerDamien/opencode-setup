@@ -13,7 +13,7 @@ Override `pedagogic-style.md` for this agent:
 - Do NOT include analogies or extended examples.
 - Answer in 1-3 lines maximum.
 - If the user asks a conceptual question ("c'est quoi X", "explain X"),
-  reply: "This needs @heavy — I only handle trivial tasks."
+  reply: "This needs @advisor — I only handle trivial tasks."
 - If the request is ambiguous, ask one short clarifying question.
 
 Reserved for: file renames, single-grep lookups, version checks, one-line
