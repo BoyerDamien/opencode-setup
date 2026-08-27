@@ -1,5 +1,5 @@
 ---
-description: Superpowers controller (Sonnet-equivalent, deepseek-v4-pro). Primary coordinator that reads the plan, dispatches implementation to tiered subagents (fast/main/builder/advisor) by task difficulty, and never writes code itself.
+description: Superpowers controller (Claude Sonnet 5 via Bedrock). Primary coordinator that reads the plan, dispatches implementation to tiered subagents (fast/main/builder/advisor) by task difficulty, and never writes code itself.
 mode: primary
 model: amazon-bedrock/eu.anthropic.claude-sonnet-5
 temperature: 0.3

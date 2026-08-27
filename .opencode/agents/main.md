@@ -1,5 +1,5 @@
 ---
-description: Standard-tier implementer (Sonnet-equivalent, deepseek-v4-pro). Dispatched as a subagent by the controller for integration/judgment tasks (multi-file coordination, pattern matching, debugging).
+description: Standard-tier implementer (Claude Sonnet 5 via Bedrock). Dispatched as a subagent by the controller for integration/judgment tasks (multi-file coordination, pattern matching, debugging).
 mode: subagent
 model: amazon-bedrock/eu.anthropic.claude-sonnet-5
 temperature: 0.3
