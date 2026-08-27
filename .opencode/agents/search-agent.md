@@ -7,11 +7,9 @@ permission:
   webfetch: allow
   websearch: allow
   bash: deny
-  write:
-    "*": deny
-    "**/docs/research/**": allow
   edit:
     "*": deny
+    "docs/research/**": allow
     "**/docs/research/**": allow
   task:
     "*": deny
