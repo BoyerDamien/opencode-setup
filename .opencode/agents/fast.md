@@ -1,7 +1,7 @@
 ---
-description: Fast, low-cost agent (Amazon Nova Micro via Bedrock) for trivial tasks: lookups, renames, single-file edits, one-line answers.
+description: Fast, low-cost agent (Claude Haiku 4.5 via Bedrock) for trivial tasks: lookups, renames, single-file edits, one-line answers.
 mode: subagent
-model: amazon-bedrock/amazon.nova-micro-v1:0
+model: amazon-bedrock/eu.anthropic.claude-haiku-4-5-20251001-v1:0
 temperature: 0.1
 permission:
   bash:
