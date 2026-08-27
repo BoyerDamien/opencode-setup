@@ -32,14 +32,11 @@ function parseMax(raw) {
 }
 const MAX_CALLS = parseMax(process.env.OPENCODE_ADVISOR_MAX);
 
-// Poll interval and total budget for read_advisor's internal wait.
-const POLL_MS = 500;
+// Total budget for read_advisor's internal wait for the advisor to go idle.
 const WAIT_MS = 120000;
 
 // Per-parent-session call counter (in-process).
 const callCount = new Map();
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // Extract the advisor's text answer from a v1 messages response.
 // Accepts either the raw array or a hey-api `{ data: [...] }` envelope.
@@ -56,22 +53,78 @@ export function extractAdvice(messages) {
   return texts.join("\n\n").trim();
 }
 
-// Block until the child session is idle (or the budget elapses), polling the
-// session status endpoint. Returns true if idle, false on timeout.
-async function waitForIdle(client, sessionID) {
-  const deadline = Date.now() + WAIT_MS;
-  while (Date.now() < deadline) {
-    let status;
-    try {
-      status = await client.session.status();
-    } catch {
-      return false;
-    }
-    const s = status?.data?.[sessionID] ?? status?.[sessionID];
-    if (s?.type === "idle") return true;
-    await sleep(POLL_MS);
+// True if the session's last assistant message has already completed.
+// Checked first so a session that finished before read_advisor was even
+// called doesn't need to wait on an SSE event that already fired (and never
+// will again).
+async function isAlreadyIdle(client, sessionID) {
+  let res;
+  try {
+    res = await client.session.messages({ path: { id: sessionID } });
+  } catch {
+    return false;
+  }
+  const list = Array.isArray(res) ? res : res?.data;
+  if (!Array.isArray(list)) return false;
+  for (let i = list.length - 1; i >= 0; i--) {
+    const info = list[i]?.info ?? list[i];
+    if (info?.role !== "assistant") continue;
+    return Boolean(info?.time?.completed);
   }
   return false;
+}
+
+// Block until the child session is idle (or the budget elapses).
+//
+// GET /session/status (client.session.status()) only reports sessions that
+// are currently busy/retrying — a session that has already finished simply
+// isn't present in that map, so polling it can never observe
+// `{type:"idle"}` and always burns the full timeout even when the advisor
+// answered in seconds. Instead: check whether the session is already done
+// (via its last message), and if not, listen on the SSE event stream for
+// `session.idle` / `session.status` events, bounded by an AbortController
+// tied to WAIT_MS so a stuck stream can't hang past the budget.
+//
+// Returns { idle: boolean, retry: {attempt, message, next} | null }, where
+// `retry` (if present) is the most recent provider-retry status seen for
+// this session, so a timeout can report *why* it's still running instead of
+// a fully generic message.
+async function waitForIdle(client, sessionID) {
+  if (await isAlreadyIdle(client, sessionID)) {
+    return { idle: true, retry: null };
+  }
+
+  const controller = new AbortController();
+  let lastRetry = null;
+  let timeoutID;
+
+  const listen = async () => {
+    const { stream } = await client.event.subscribe({ signal: controller.signal });
+    for await (const event of stream) {
+      if (event?.properties?.sessionID !== sessionID) continue;
+      if (event.type === "session.idle") return { idle: true, retry: lastRetry };
+      if (event.type === "session.status") {
+        const status = event.properties?.status;
+        if (status?.type === "idle") return { idle: true, retry: lastRetry };
+        if (status?.type === "retry") lastRetry = status;
+      }
+    }
+    // Stream ended without ever seeing this session go idle.
+    return { idle: false, retry: lastRetry };
+  };
+
+  const timeout = new Promise((resolve) => {
+    timeoutID = setTimeout(() => resolve({ idle: false, retry: lastRetry }), WAIT_MS);
+  });
+
+  try {
+    return await Promise.race([listen(), timeout]);
+  } catch {
+    return { idle: false, retry: lastRetry };
+  } finally {
+    controller.abort();
+    clearTimeout(timeoutID);
+  }
 }
 
 export default async function advisor({ client }) {
@@ -147,14 +200,16 @@ export default async function advisor({ client }) {
           sessionID: tool.schema.string().describe("The advisor child session ID"),
         },
         async execute(args) {
-          const idle = await waitForIdle(client, args.sessionID);
+          const { idle, retry } = await waitForIdle(client, args.sessionID);
           if (!idle) {
-            return {
-              title: "advisor timeout",
-              output:
-                "The advisor did not finish within " + WAIT_MS / 1000 +
-                "s. Call read_advisor again to retry.",
-            };
+            const output = retry
+              ? "The advisor's request is still being retried upstream (attempt " +
+                retry.attempt + ": " + retry.message + "). This is a provider-side " +
+                "retry, not a tool bug — call read_advisor again in a bit, or ask a " +
+                "narrower question."
+              : "The advisor did not finish within " + WAIT_MS / 1000 +
+                "s. Call read_advisor again to retry.";
+            return { title: "advisor timeout", output };
           }
 
           let res;
