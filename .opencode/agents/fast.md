@@ -1,7 +1,7 @@
 ---
 description: Fast Haiku-equivalent (deepseek-v4-flash) for trivial tasks: lookups, renames, single-file edits, one-line answers.
 mode: subagent
-model: ollama-cloud/deepseek-v4-flash
+model: amazon-bedrock/amazon.nova-micro-v1:0
 temperature: 0.1
 permission:
   webfetch: deny

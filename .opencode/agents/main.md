@@ -1,7 +1,7 @@
 ---
 description: Standard-tier implementer (Sonnet-equivalent, deepseek-v4-pro). Dispatched as a subagent by the controller for integration/judgment tasks (multi-file coordination, pattern matching, debugging).
 mode: subagent
-model: ollama-cloud/deepseek-v4-pro
+model: amazon-bedrock/eu.anthropic.claude-sonnet-5
 temperature: 0.3
 permission:
   webfetch: deny

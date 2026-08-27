@@ -1,7 +1,7 @@
 ---
 description: Superpowers controller (Sonnet-equivalent, deepseek-v4-pro). Primary coordinator that reads the plan, dispatches implementation to tiered subagents (fast/main/builder/advisor) by task difficulty, and never writes code itself.
 mode: primary
-model: ollama-cloud/deepseek-v4-pro
+model: amazon-bedrock/eu.anthropic.claude-sonnet-5
 temperature: 0.3
 permission:
   webfetch: deny

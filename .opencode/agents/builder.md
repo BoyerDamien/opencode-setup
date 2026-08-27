@@ -1,7 +1,7 @@
 ---
 description: Capable implementer (Opus-equivalent, kimi-k3) for hard implementation tasks. Dispatched as a subagent by Superpowers fix-loop escalation (rounds 4-5) and heavy design/architecture work that writes code. The read-only advisor (advisor.md) is used for reviews instead.
 mode: subagent
-model: ollama-cloud/kimi-k3
+model: amazon-bedrock/eu.anthropic.claude-sonnet-5
 temperature: 0.3
 permission:
   edit: allow
