@@ -70,6 +70,11 @@ Exa for factual web research (`web_search_exa` + `web_fetch_exa`), with
 `fast`, `builder`, `advisor`) is denied direct web and MCP access and must
 dispatch `@search-agent` instead.
 
+`search-agent` also has **read-only** access to the Notion, Linear, and Slack
+MCP servers, so it can search the user's own docs, issues, and messages and
+cite them in its reports. Write access to these servers is denied — the agent
+can only search and read, never create or modify.
+
 ### Terraform navigation (LSP)
 
 Terraform navigation (`lsp_*`) requires a `terraform` or `tofu` binary on
