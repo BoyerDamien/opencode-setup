@@ -5,7 +5,20 @@ model: amazon-bedrock/eu.anthropic.claude-sonnet-5
 temperature: 0.3
 permission:
   edit: allow
-  bash: ask
+  bash:
+    "*": allow
+    "rm *": deny
+    "sudo *": deny
+    "git push --force*": deny
+    "git push -f*": deny
+    "curl * | sh": deny
+    "curl * | bash": deny
+    "wget * | sh": deny
+    "wget * | bash": deny
+    "chmod *": deny
+    "chown *": deny
+    "dd *": deny
+    "mkfs*": deny
   webfetch: deny
   websearch: deny
   "lsp_*": allow

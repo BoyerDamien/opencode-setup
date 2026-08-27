@@ -4,6 +4,20 @@ mode: subagent
 model: amazon-bedrock/amazon.nova-micro-v1:0
 temperature: 0.1
 permission:
+  bash:
+    "*": allow
+    "rm *": deny
+    "sudo *": deny
+    "git push --force*": deny
+    "git push -f*": deny
+    "curl * | sh": deny
+    "curl * | bash": deny
+    "wget * | sh": deny
+    "wget * | bash": deny
+    "chmod *": deny
+    "chown *": deny
+    "dd *": deny
+    "mkfs*": deny
   webfetch: deny
   websearch: deny
 ---

@@ -5,7 +5,20 @@ model: ollama-cloud/glm-5.2
 temperature: 0.4
 permission:
   edit: deny
-  bash: allow
+  bash:
+    "*": allow
+    "rm *": deny
+    "sudo *": deny
+    "git push --force*": deny
+    "git push -f*": deny
+    "curl * | sh": deny
+    "curl * | bash": deny
+    "wget * | sh": deny
+    "wget * | bash": deny
+    "chmod *": deny
+    "chown *": deny
+    "dd *": deny
+    "mkfs*": deny
   webfetch: deny
   websearch: deny
 ---
