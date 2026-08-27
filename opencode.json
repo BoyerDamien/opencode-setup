@@ -54,6 +54,11 @@
       "url": "https://mcp.linear.app/mcp",
       "enabled": true
     },
+    "mermaid": {
+      "type": "remote",
+      "url": "https://mcp.mermaid.ai/mcp",
+      "enabled": true
+    },
     "lsp": {
       "type": "local",
       "command": ["/home/dboyer/.local/share/mise/shims/agent-lsp", "--config", "/home/dboyer/.config/opencode/agent-lsp.json"],
@@ -67,7 +72,8 @@
     "websearch": "allow",
     "exa_*": "deny",
     "context7_*": "deny",
-    "lsp_*": "deny"
+    "lsp_*": "deny",
+    "mermaid_*": "allow"
   },
   "compaction": {
     "auto": true,
