@@ -53,13 +53,13 @@ Superpowers runs a controller that delegates implementation to tiered
 subagents. The `controller` is the primary agent; the rest are subagents it
 dispatches via the `task` tool.
 
-| Agent        | Model                            | Tier (Anthropic-equiv) | Role                                                    |
-| ------------ | -------------------------------- | ---------------------- | ------------------------------------------------------- |
-| `controller` | `ollama-cloud/deepseek-v4-pro`   | Sonnet                 | Primary — coordinates, reads plan, dispatches, never codes |
-| `main`       | `ollama-cloud/deepseek-v4-pro`   | Sonnet                 | Standard implementer: integration, multi-file, debugging |
-| `fast`       | `ollama-cloud/deepseek-v4-flash` | Haiku                  | Mechanical implementer: 1-2 files, complete spec         |
-| `builder`    | `ollama-cloud/kimi-k3`           | Opus                   | Hard implementer: design judgment, fix-loop rounds 4-5   |
-| `advisor`    | `ollama-cloud/kimi-k3`           | Opus                   | Read-only review, advice, architecture (never edits)     |
+| Agent        | Model                                                        | Role                                                        |
+| ------------ | ------------------------------------------------------------- | ------------------------------------------------------------ |
+| `controller` | `amazon-bedrock/eu.anthropic.claude-sonnet-5`                  | Primary — coordinates, reads plan, dispatches, never codes  |
+| `main`       | `amazon-bedrock/eu.anthropic.claude-sonnet-5`                  | Standard implementer: integration, multi-file, debugging    |
+| `fast`       | `amazon-bedrock/eu.anthropic.claude-haiku-4-5-20251001-v1:0`   | Mechanical implementer: 1-2 files, complete spec             |
+| `builder`    | `amazon-bedrock/eu.anthropic.claude-sonnet-5`                  | Hard implementer: design judgment, fix-loop rounds 4-5       |
+| `advisor`    | `ollama-cloud/glm-5.2`                                         | Read-only review, advice, architecture (never edits)         |
 
 Decision table (Superpowers "Model Selection"):
 
