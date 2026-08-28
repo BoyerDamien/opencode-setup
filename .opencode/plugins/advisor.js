@@ -21,9 +21,24 @@
  */
 
 import process from "node:process";
+import { appendFileSync } from "node:fs";
 import { tool } from "@opencode-ai/plugin";
 
 const DISABLED = process.env.OPENCODE_ADVISOR_DISABLE === "1";
+
+// Debug sink for waitForIdle's SSE-subscription tracing. opencode.log does
+// NOT capture plugin console.error output (confirmed empirically — a plugin
+// crash mid-request leaves no ERROR-level line at all), so this appends
+// timestamped lines to a fixed file on disk instead. Never throws: a failure
+// to write the debug file must not take down the tool call it's tracing.
+const DEBUG_LOG_PATH = "/tmp/opencode-advisor-debug.log";
+function debugLog(message) {
+  try {
+    appendFileSync(DEBUG_LOG_PATH, `[${new Date().toISOString()}] ${message}\n`);
+  } catch {
+    // swallow — debug logging must never be the reason a tool call fails
+  }
+}
 
 function parseMax(raw) {
   const n = Number(raw);
@@ -74,52 +89,139 @@ async function isAlreadyIdle(client, sessionID) {
   return false;
 }
 
+// Default interval for the fallback poll in waitForIdle. Tests override
+// this via opts.pollMs to avoid real multi-second waits.
+const POLL_MS = 4000;
+
+function sleep(ms, signal) {
+  return new Promise((resolve) => {
+    const id = setTimeout(resolve, ms);
+    if (signal) {
+      const onAbort = () => {
+        clearTimeout(id);
+        resolve();
+      };
+      if (signal.aborted) onAbort();
+      else signal.addEventListener("abort", onAbort, { once: true });
+    }
+  });
+}
+
 // Block until the child session is idle (or the budget elapses).
 //
 // GET /session/status (client.session.status()) only reports sessions that
 // are currently busy/retrying — a session that has already finished simply
 // isn't present in that map, so polling it can never observe
 // `{type:"idle"}` and always burns the full timeout even when the advisor
-// answered in seconds. Instead: check whether the session is already done
-// (via its last message), and if not, listen on the SSE event stream for
+// answered in seconds. So instead we listen on the SSE event stream for
 // `session.idle` / `session.status` events, bounded by an AbortController
-// tied to WAIT_MS so a stuck stream can't hang past the budget.
+// tied to `waitMs` so a stuck stream can't hang past the budget.
+//
+// This is the SECOND race in this same detection path (the first, fixed in
+// 42d7bb6, was the status-polling problem described above). The second
+// race was: the previous implementation checked `isAlreadyIdle()` first and
+// only subscribed to the event stream if that check came back false. If the
+// session transitioned to idle in the gap between that check returning and
+// the subscription actually being established, `session.idle` fired with
+// nobody listening yet — SSE has no replay, so the event was lost forever,
+// and read_advisor burned the full `waitMs` budget even though the answer
+// had been ready almost immediately (observed live: a ~93s silent gap
+// against a 120s budget). The fix is to subscribe FIRST, and only check
+// `isAlreadyIdle()` once that subscription is live — any transition from
+// that point on is covered by the listener, closing the window entirely.
+// If the post-subscribe check comes back true (session already finished
+// before we even started), we abort the subscription immediately rather
+// than waiting on an event that will never come.
+//
+// As defense in depth against any other detection gap we haven't thought
+// of, a periodic fallback poll of `isAlreadyIdle()` (every `pollMs`, default
+// POLL_MS) races alongside the SSE listener, so a dropped/undelivered event
+// still surfaces completion within seconds instead of the full budget.
 //
 // Returns { idle: boolean, retry: {attempt, message, next} | null }, where
 // `retry` (if present) is the most recent provider-retry status seen for
 // this session, so a timeout can report *why* it's still running instead of
 // a fully generic message.
-async function waitForIdle(client, sessionID) {
-  if (await isAlreadyIdle(client, sessionID)) {
-    return { idle: true, retry: null };
-  }
+export async function waitForIdle(client, sessionID, opts = {}) {
+  const waitMs = opts.waitMs ?? WAIT_MS;
+  const pollMs = opts.pollMs ?? POLL_MS;
 
   const controller = new AbortController();
   let lastRetry = null;
   let timeoutID;
 
+  debugLog(`waitForIdle(${sessionID}): subscribing before idle check`);
+  let stream = null;
+  try {
+    ({ stream } = await client.event.subscribe({ signal: controller.signal }));
+  } catch (err) {
+    debugLog(
+      `waitForIdle(${sessionID}): event.subscribe failed: ` +
+        `${String(err?.message ?? err)}; falling back to polling only`,
+    );
+  }
+
+  if (await isAlreadyIdle(client, sessionID)) {
+    debugLog(`waitForIdle(${sessionID}): already idle post-subscribe; aborting stream`);
+    controller.abort();
+    return { idle: true, retry: lastRetry };
+  }
+
+  // Consumes the already-established `stream` (registered above, before the
+  // idle check ran) so no event delivered from this point on can be missed.
+  // Deliberately never resolves to {idle:false} on its own — if the stream
+  // fails or ends without observing idle, it just hangs, so only the
+  // fallback poll or the final timeout (never a coincidental disconnect)
+  // decides the "not idle" outcome.
   const listen = async () => {
-    const { stream } = await client.event.subscribe({ signal: controller.signal });
+    if (!stream) return new Promise(() => {});
     for await (const event of stream) {
       if (event?.properties?.sessionID !== sessionID) continue;
-      if (event.type === "session.idle") return { idle: true, retry: lastRetry };
+      if (event.type === "session.idle") {
+        debugLog(`waitForIdle(${sessionID}): session.idle event received`);
+        return { idle: true, retry: lastRetry };
+      }
       if (event.type === "session.status") {
         const status = event.properties?.status;
-        if (status?.type === "idle") return { idle: true, retry: lastRetry };
+        if (status?.type === "idle") {
+          debugLog(`waitForIdle(${sessionID}): session.status idle event received`);
+          return { idle: true, retry: lastRetry };
+        }
         if (status?.type === "retry") lastRetry = status;
       }
     }
-    // Stream ended without ever seeing this session go idle.
-    return { idle: false, retry: lastRetry };
+    debugLog(`waitForIdle(${sessionID}): event stream ended without idle`);
+    return new Promise(() => {});
+  };
+
+  // Fallback poll: same never-resolve-on-"not yet" discipline as listen()
+  // above, so only a genuine idle observation or the final timeout can
+  // settle the race — a poll tick that merely finds "not idle yet" must
+  // not prematurely report failure while the stream or a later poll tick
+  // could still succeed within budget.
+  const poll = async () => {
+    while (!controller.signal.aborted) {
+      await sleep(pollMs, controller.signal);
+      if (controller.signal.aborted) break;
+      if (await isAlreadyIdle(client, sessionID)) {
+        debugLog(`waitForIdle(${sessionID}): fallback poll observed idle`);
+        return { idle: true, retry: lastRetry };
+      }
+    }
+    return new Promise(() => {});
   };
 
   const timeout = new Promise((resolve) => {
-    timeoutID = setTimeout(() => resolve({ idle: false, retry: lastRetry }), WAIT_MS);
+    timeoutID = setTimeout(() => {
+      debugLog(`waitForIdle(${sessionID}): timed out after ${waitMs}ms`);
+      resolve({ idle: false, retry: lastRetry });
+    }, waitMs);
   });
 
   try {
-    return await Promise.race([listen(), timeout]);
-  } catch {
+    return await Promise.race([listen(), poll(), timeout]);
+  } catch (err) {
+    debugLog(`waitForIdle(${sessionID}): unexpected error: ${String(err?.message ?? err)}`);
     return { idle: false, retry: lastRetry };
   } finally {
     controller.abort();
