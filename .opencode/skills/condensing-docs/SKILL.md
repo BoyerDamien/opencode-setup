@@ -1,6 +1,6 @@
 ---
 name: condensing-docs
-description: Use when condensing, simplifying, or reducing the verbosity of a markdown document — triggers: "condense ce doc", "simplifie ce texte", "relis section par section", "rends ça moins verbeux", "réduis ce document".
+description: Use when condensing, simplifying, or reducing the verbosity of a markdown document — Triggers on "condense ce doc", "simplifie ce texte", "relis section par section", "rends ça moins verbeux", "réduis ce document".
 ---
 
 # condensing-docs
