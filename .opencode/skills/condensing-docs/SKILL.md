@@ -1,11 +1,22 @@
 ---
 name: condensing-docs
-description: Use when condensing, simplifying, or reducing the verbosity of a markdown document — Triggers on "condense ce doc", "simplifie ce texte", "relis section par section", "rends ça moins verbeux", "réduis ce document".
+description: Use when condensing, simplifying, or reducing the verbosity of any written content — markdown docs, comments, PR messages, commit messages, tickets/issues. Triggers on "condense ce doc", "simplifie ce texte", "relis section par section", "rends ça moins verbeux", "réduis ce document", "condense ce commentaire", "simplifie cette PR", "condense ce ticket", "réduis ce message de commit".
 ---
 
 # condensing-docs
 
-Relit un document markdown section par section et propose une version condensée à l'essentiel, en mode interactif (validation par section) ou automatique (application directe, résumé à la fin).
+Condense toute production écrite destinée à des humains : documents markdown longs, commentaires, messages de PR, tickets/issues, commit messages. Propose une version condensée à l'essentiel, en mode interactif (validation par section) ou automatique (application directe, résumé à la fin).
+
+## Type de contenu
+
+Le type dépend de la structure et de la longueur du contenu — jamais de la source (fichier, URL, texte collé, commentaire, ticket...).
+
+**Règle de classification :** `doc long structuré` si le contenu a **≥2 headings markdown** (`#`/`##`/`###`) **OU ≥300 mots**. Sinon `court/faible impact`.
+
+| Type | Comportement |
+|---|---|
+| **Doc long structuré** | Demande le mode (interactif/auto), découpage en sections + todo list, validation ou grep selon le mode choisi |
+| **Court / faible impact** | Mode automatique forcé (question du choix de mode sautée), même workflow que les docs longs : découpage en sections + todo list, boucle en mode automatique (grep de cohérence + vérification d'accessibilité des chemins), résumé final systématique |
 
 ## Récupération de la source
 
@@ -14,46 +25,27 @@ Relit un document markdown section par section et propose une version condensée
 | Chemin local | `read` le fichier, édite en place avec `edit` |
 | URL distante | fetch le contenu, condensation affichée en chat (pas d'édition en place possible) |
 | Texte collé | traité directement, version condensée retournée en chat |
+| Commentaire/issue Linear ou Notion existant | Fetch via tool plateforme (ex. `linear_get_issue`, `notion_notion-get-comments`), condensation, **écriture automatique** via le tool d'écriture correspondant (ex. `linear_save_comment`, `linear_save_issue`, `notion_notion-create-comment` avec l'id du commentaire pour update) |
+| Commentaire/PR/issue GitHub, message Slack | Fetch via tool de lecture (ex. `mermaid_get_pull_comments`, `mermaid_get_issue_comments`, `slack_read_thread`), condensation **affichée en chat uniquement** — aucun tool d'édition de commentaire/message existant n'est disponible pour ces plateformes, donc pas d'écriture automatique possible |
+| Commit message (brouillon avant `git commit`) | Traité comme texte collé, condensation affichée en chat — l'utilisateur committe lui-même |
 
 ## Règles de condensation
 
-| Don't | Do |
-|---|---|
-| Référence à un chemin de fichier/dossier précis quand il n'est pas le sujet de la phrase (`src/foo/bar.ts:42`) | Supprime la référence ou généralise |
-| Lien intentionnel (`[doc](https://...)`) qui porte l'information | Garde-le — ce n'est pas une référence fragile |
-| Phrase longue/complexe, subordonnées imbriquées | Découpe en phrases courtes ou liste à puces |
-| Plusieurs formulations de la même idée | Garde la plus courte |
-| Détails d'implémentation non essentiels au message | Garde seulement la conclusion/règle/décision |
+Charge `references/patterns.md` avant de condenser — liste complète des règles Don't/Do (règles de base + patterns validés par la recherche en rédaction technique).
+
+Charge aussi `references/guardrails.md` — garde-fous obligatoires (anti-sur-condensation, style télégraphique, accessibilité des chemins). Ces contraintes priment sur les patterns stylistiques en cas de conflit.
 
 Seule la prose est condensée. Intouchables : blocs de code, tableaux de référence, frontmatter YAML.
 
-## Découpage en sections
-
-Découpe selon les headings markdown (`#`, `##`, `###`). Section trop longue → re-découpe en paragraphes. Aucun heading → blocs de ~3-5 paragraphes.
-
 ## Workflow
 
-0. **Choix du mode** : demande "Mode interactif (validation section par section) ou automatique (application directe, résumé à la fin) ?" avant de commencer.
-1. Découpe le doc en sections (voir ci-dessus), puis crée une todo list (une entrée par section) via `todowrite` pour suivre la progression.
-2. Pour chaque section, dans l'ordre, marque-la `in_progress` puis :
-
-**Mode interactif :**
-   a. Affiche l'original et une proposition condensée — ou signale que la section est déjà concise et propose de passer.
-   b. Attend la validation (valider / modifier / passer).
-   c. Si validé : applique l'édition, puis `grep` les sections restantes pour tout terme significatif retiré. Si trouvé, signale-le avec un correctif proposé avant de continuer.
-   d. Marque la section `completed`, demande si on continue avec la section suivante.
-
-**Mode automatique :**
-   a. Applique directement la condensation proposée, sans affichage ni attente de validation.
-   b. `grep` les sections restantes pour tout terme significatif retiré ; si trouvé, applique automatiquement le correctif, sans s'arrêter.
-   c. Marque la section `completed`, passe à la suivante.
-
-3. Fin de parcours :
-   - **Interactif** : pas de résumé automatique, sauf demande explicite.
-   - **Automatique** : résumé systématique (sections modifiées, correctifs de cohérence appliqués).
+Charge `references/workflow.md` avant de commencer — découpage en sections, choix du mode, et boucles interactif/automatique complètes (validation, cohérence, accessibilité des chemins).
 
 ## Ce que le skill ne fait pas (v1)
 
 - Ne réorganise ni ne fusionne les sections.
 - Ne détecte pas les ruptures de cohérence vers des sections déjà éditées (seulement vers les sections restantes).
 - En mode interactif, ne produit pas de résumé automatique de fin (sauf demande explicite).
+- Ne propose pas d'édition en place pour les plateformes sans tool d'écriture de commentaire (GitHub, Slack) — affichage en chat seulement.
+- Ne committe jamais automatiquement à la place de l'utilisateur (commit messages toujours affichés en chat, jamais exécutés).
+- Ne vérifie pas les permissions d'accès sur les plateformes externes (Notion, Linear, Slack, GitHub). La vérification d'accessibilité (existant + committé + pushé) ne couvre que les chemins de fichiers du dépôt git, pas les liens/documents externes.
