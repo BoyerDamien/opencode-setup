@@ -61,7 +61,11 @@
     },
     "lsp": {
       "type": "local",
-      "command": ["/home/dboyer/.local/share/mise/shims/agent-lsp", "--config", "/home/dboyer/.config/opencode/agent-lsp.json"],
+      "command": [
+        "$HOME/.local/share/mise/shims/agent-lsp",
+        "--config",
+        "$HOME/.config/opencode/agent-lsp.json"
+      ],
       "enabled": true
     }
   },
