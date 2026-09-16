@@ -13,7 +13,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-GLOBAL="${XDG_CONFIG_HOME:-$HOME}/.config/opencode"
+GLOBAL="${XDG_CONFIG_HOME:-$HOME}/opencode"
 
 # repo-relative source : destination name in ~/.config/opencode/
 LINKS=(
@@ -35,17 +35,17 @@ PURGE="false"
 
 for arg in "$@"; do
   case "$arg" in
-    --uninstall) MODE="uninstall" ;;
-    --force)     FORCE="true" ;;
-    --purge)     PURGE="true" ;;
-    -h|--help)
-      sed -n '2,12p' "${BASH_SOURCE[0]}"
-      exit 0
-      ;;
-    *)
-      echo "setup-opencode: unknown argument: $arg" >&2
-      exit 2
-      ;;
+  --uninstall) MODE="uninstall" ;;
+  --force) FORCE="true" ;;
+  --purge) PURGE="true" ;;
+  -h | --help)
+    sed -n '2,12p' "${BASH_SOURCE[0]}"
+    exit 0
+    ;;
+  *)
+    echo "setup-opencode: unknown argument: $arg" >&2
+    exit 2
+    ;;
   esac
 done
 
@@ -63,7 +63,7 @@ resolve() {
     if [[ "$link" = /* ]]; then
       printf '%s\n' "$link"
     else
-      ( cd -- "$(dirname -- "$target")" && printf '%s/%s\n' "$(pwd)" "$link" )
+      (cd -- "$(dirname -- "$target")" && printf '%s/%s\n' "$(pwd)" "$link")
     fi
   else
     printf '%s\n' "$target"
@@ -112,7 +112,7 @@ for entry in "${LINKS[@]}"; do
         skipped=$((skipped + 1))
       fi
     fi
-  else  # uninstall
+  else # uninstall
     if [[ -L "$dest" ]] && [[ "$(resolve "$dest")" == "$src" ]]; then
       rm "$dest"
       echo "removed $dest"
@@ -133,12 +133,12 @@ fi
 
 echo "---"
 case "$MODE" in
-  install)
-    echo "Done. created=$created updated=$updated skipped=$skipped"
-    [[ $skipped -gt 0 ]] && exit 1 || exit 0
-    ;;
-  uninstall)
-    echo "Done. removed=$removed skipped=$skipped"
-    [[ $skipped -gt 0 ]] && exit 1 || exit 0
-    ;;
+install)
+  echo "Done. created=$created updated=$updated skipped=$skipped"
+  [[ $skipped -gt 0 ]] && exit 1 || exit 0
+  ;;
+uninstall)
+  echo "Done. removed=$removed skipped=$skipped"
+  [[ $skipped -gt 0 ]] && exit 1 || exit 0
+  ;;
 esac
