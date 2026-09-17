@@ -14,7 +14,8 @@
     "AGENTS.md",
     "instructions/secrets.md",
     "instructions/anti-hallucination.md",
-    "instructions/pedagogic-style.md"
+    "instructions/pedagogic-style.md",
+    "instructions/memory-capitalization.md"
   ],
   "plugin": [
     "superpowers@git+https://github.com/obra/superpowers.git"
