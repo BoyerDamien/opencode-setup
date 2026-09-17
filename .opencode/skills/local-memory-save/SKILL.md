@@ -9,44 +9,66 @@ Writes a curated entry to `~/.memory/entries/`. Every write is validated by the 
 
 ## File format
 
-Each entry is a Markdown file with YAML frontmatter:
+Filename: `~/.memory/entries/YYYY-MM-DD-<keyword-slug>.md` — the slug must carry the searchable terms (not just the date).
 
-```yaml
+Template:
+
+```markdown
 ---
-title: "Lesson or finding title"
-tags: ["tag1", "tag2"]
-type: "lesson" | "finding" | "pattern" | "gotcha"
-date: "YYYY-MM-DD"
+title: <short descriptive title>
+type: research   # research | lesson
+tags: [tag1, tag2]   # 2-4 tags, lowercase, kebab-case
+source_project: <repo/project this came from>
+date: YYYY-MM-DD
 ---
 
-# Body
+# <same as title>
 
-Markdown body. Keep it concise — 1–3 paragraphs max.
+> **Summary:** one sentence, spelling out synonyms explicitly (e.g. "k8s/kubernetes")
+> — this is the retrieval hook; without a clear summary the entry is never found again.
+
+## Why / What / Lesson (pick a heading that fits this entry)
+
+- [decision] ... #tag
+- [fact] ... #tag
+- [lesson] ... #tag
+
+## Relations (optional)
+
+- related_to [[Another Entry Title]]
+- supersedes [[Old Entry Title]]
 ```
 
-## Workflow
+Non-negotiable constraints:
+1. One entry = one fact / one lesson / one problem-solution pair — never split by size alone.
+2. The summary blockquote goes right after the H1, with synonyms spelled out in plain text (retrieval today is lexical — exact match only).
+3. 2-4 tags, lowercase, kebab-case.
+4. Target ~60-80 lines per entry.
 
-1. **Collect the lesson.** Ask the user to summarize the key takeaway in 1–2 sentences.
-2. **Propose tags.** Suggest 2–3 tags based on the lesson (e.g., `["git", "workflow"]`).
-3. **Propose type.** Suggest one of: `lesson`, `finding`, `pattern`, `gotcha`.
-4. **Draft the entry.** Write the full Markdown with frontmatter.
-5. **Show the draft to the user.** Ask for approval before writing.
-6. **Check for contradictions.** Call `local-memory-learn` with the draft. If conflicts exist, present them and ask the user to resolve.
-7. **Write to disk.** Once approved, write the file to `~/.memory/entries/<YYYY-MM-DD>-<slug>.md`.
+## Algorithm
 
-## Output
+1. **Draft the entry** from the checkpoint's content (research findings, a lesson from a finished branch, a brainstorming insight), following the template above.
 
-```
-✓ Saved to ~/.memory/entries/2025-09-15-git-worktree-isolation.md
-```
+2. **Bootstrap `~/.memory` if needed.** If `~/.memory/entries/` doesn't exist yet:
 
-## Errors
+   ```bash
+   mkdir -p ~/.memory/entries
+   git -C ~/.memory init
+   ```
 
-- `~/.memory/entries/` does not exist: create it.
-- User rejects the draft: do not write.
-- Contradictions found: present them and ask the user to resolve before writing.
+3. **Call `local-memory-learn`** with the draft's `tags` and summary.
 
-## See Also
+4. **Act on `learn`'s verdict:**
+   - `recommendation: "write"` → show the draft to the user, let them validate or edit it, then write it and go to step 5.
+   - `recommendation: "discard"` → do not write anything; tell the user the existing entry was kept as-is, and stop.
+   - `recommendation: "supersede"` → add `- supersedes [[<old title>]]` to the draft's `## Relations` section, show it to the user for final validation, then write it and go to step 5.
+   - `recommendation: "merge"` → replace the draft's body with `merged_content` (keep the frontmatter), add the `supersedes` relation to the old entry, show it to the user for final validation, then write it and go to step 5.
 
-- `local-memory-retrieve` — search entries.
-- `local-memory-learn` — check for contradictions.
+5. **Write and commit:**
+
+   ```bash
+   git -C ~/.memory add entries/<filename>.md
+   git -C ~/.memory commit -m "save: <title>"
+   ```
+
+6. Report the file path to the user.
