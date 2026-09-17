@@ -7,6 +7,7 @@ permission:
   bash:
     "*": allow
     "rm *": deny
+    "rm ~/.memory/entries/*": allow
     "sudo *": deny
     "git push --force*": deny
     "git push -f*": deny
