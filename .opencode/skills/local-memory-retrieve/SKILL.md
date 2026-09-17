@@ -47,11 +47,9 @@ A list of `{file, title, summary, tags}` per match (mode `preview`), or the same
 
 5. **Cap at `limit`.** Sort remaining candidates by filename descending (the `YYYY-MM-DD-` prefix makes this most-recent-first) and keep the first `limit`.
 
-6. **Extract preview per candidate.** For each kept file, read only the first 15 lines:
+6. **Extract preview per candidate.** For each kept file, use the `read` tool with `limit: 15` (not a bash command — this needs no extra `bash` permission for any caller):
 
-   ```bash
-   sed -n '1,15p' <file>
-   ```
+   `read(filePath: <file>, limit: 15)`
 
    From these lines, pull the `title:` frontmatter value, the `tags:` frontmatter value, and the `> **Summary:** ...` blockquote text (it may span 1-2 lines).
 

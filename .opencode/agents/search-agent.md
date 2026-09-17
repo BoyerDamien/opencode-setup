@@ -8,7 +8,7 @@ permission:
   websearch: allow
   bash:
     "*": deny
-    "rg ~/.memory/*": allow
+    "rg *~/.memory*": allow
   edit:
     "*": deny
     "docs/research/**": allow

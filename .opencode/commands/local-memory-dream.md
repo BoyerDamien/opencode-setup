@@ -13,7 +13,7 @@ Follow this algorithm exactly. Never skip the validation step — this operation
    rg -l "tags:.*\b$ARGUMENTS\b" ~/.memory/entries/ 2>/dev/null
    ```
 
-   If fewer than 2 files match, tell the user there's nothing to consolidate for this tag and stop.
+   If fewer than 2 files match, tell the user there's nothing to consolidate for this tag and stop. Note: `$ARGUMENTS` is inserted directly into this regex — safe only because `local-memory-save` constrains tags to lowercase kebab-case; do not pass unvalidated external input as the tag.
 
 2. **Read every matching file in full.**
 
@@ -38,7 +38,7 @@ Follow this algorithm exactly. Never skip the validation step — this operation
    - Commit:
 
      ```bash
-     git -C ~/.memory add -A
+     git -C ~/.memory add entries/
      git -C ~/.memory commit -m "dream: consolidate <tag> entries into <new title>"
      ```
 

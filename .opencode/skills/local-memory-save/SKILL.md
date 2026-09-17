@@ -62,7 +62,7 @@ Non-negotiable constraints:
    - `recommendation: "write"` → show the draft to the user, let them validate or edit it, then write it and go to step 5.
    - `recommendation: "discard"` → do not write anything; tell the user the existing entry was kept as-is, and stop.
    - `recommendation: "supersede"` → add `- supersedes [[<old title>]]` to the draft's `## Relations` section, show it to the user for final validation, then write it and go to step 5.
-   - `recommendation: "merge"` → replace the draft's body with `merged_content` (keep the frontmatter), add the `supersedes` relation to the old entry, show it to the user for final validation, then write it and go to step 5.
+   - `recommendation: "merge"` → replace the draft's body with `merged_content` (keep the frontmatter), add `- supersedes [[<old title>]]` to the draft's `## Relations` section — same as the `supersede` case; never edit the old entry's file — show it to the user for final validation, then write it and go to step 5.
 
 5. **Write and commit:**
 
