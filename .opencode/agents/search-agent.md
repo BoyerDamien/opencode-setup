@@ -6,7 +6,9 @@ temperature: 0.1
 permission:
   webfetch: allow
   websearch: allow
-  bash: deny
+  bash:
+    "*": deny
+    "rg ~/.memory/*": allow
   edit:
     "*": deny
     "docs/research/**": allow
@@ -93,24 +95,26 @@ Do not reach for `websearch`/`webfetch` out of habit — try Context7/Exa first,
 
 ## Research Algorithm
 
-1. **Check Cache** — Before searching, check `./docs/research/` for an existing report matching the topic (exact or close filename match). If found and still relevant/current, return its path directly instead of re-researching. If it exists but looks stale or incomplete for the current query, note this and proceed with a targeted re-search rather than starting from scratch.
+1. **Check Local Memory** — Before searching, invoke `local-memory-retrieve` on the topic's keywords (as `query`, optionally narrowed with `tags`/`type`). If a relevant, current entry exists in `~/.memory`, return it directly instead of launching a search. If `~/.memory/entries/` doesn't exist yet, or `local-memory-retrieve` returns no results, skip this step without error and continue to Check Cache.
 
-2. **Clarify** — Analyze the query. If the subject is ambiguous or vague, respond to the parent agent with specific clarifying questions and wait for a response before proceeding.
+2. **Check Cache** — Before searching, check `./docs/research/` for an existing report matching the topic (exact or close filename match). If found and still relevant/current, return its path directly instead of re-researching. If it exists but looks stale or incomplete for the current query, note this and proceed with a targeted re-search rather than starting from scratch.
 
-3. **Parallel Search** — Launch searches across all available sources simultaneously, starting with Exa (`exa_web_search_exa`), then documentation queries, URL fetching (`exa_web_fetch_exa`), etc.
+3. **Clarify** — Analyze the query. If the subject is ambiguous or vague, respond to the parent agent with specific clarifying questions and wait for a response before proceeding.
 
-4. **Veracity Evaluation** — Consolidate results and evaluate their trustworthiness:
+4. **Parallel Search** — Launch searches across all available sources simultaneously, starting with Exa (`exa_web_search_exa`), then documentation queries, URL fetching (`exa_web_fetch_exa`), etc.
+
+5. **Veracity Evaluation** — Consolidate results and evaluate their trustworthiness:
    - **High**: Multiple independent, concordant sources with strong authority
    - **Medium**: Partial sources or moderate concordance
    - **Low**: Single source, contradictory information, or missing evidence
 
-5. **Re-search Loop** — If veracity is **low**, launch an additional round of deeper search (different queries, different sources). Repeat up to a maximum of **3 loops**. If veracity reaches **high** at any point, proceed to reporting. If veracity is **medium** after 3 loops, proceed to reporting but flag the overall confidence as "medium".
+6. **Re-search Loop** — If veracity is **low**, launch an additional round of deeper search (different queries, different sources). Repeat up to a maximum of **3 loops**. If veracity reaches **high** at any point, proceed to reporting. If veracity is **medium** after 3 loops, proceed to reporting but flag the overall confidence as "medium".
 
-6. **Abandon on Failure** — If veracity remains **low** after 3 loops, abandon the full-verification attempt. Still write a partial report clearly indicating that verification failed and noting the limitations.
+7. **Abandon on Failure** — If veracity remains **low** after 3 loops, abandon the full-verification attempt. Still write a partial report clearly indicating that verification failed and noting the limitations.
 
-7. **Write Report** — Create a comprehensive markdown report at `./docs/research/<topic>.md` (kebab-case, no timestamp). Create the directory if it does not exist.
+8. **Write Report** — Create a comprehensive markdown report at `./docs/research/<topic>.md` (kebab-case, no timestamp). Create the directory if it does not exist.
 
-8. **Return Path** — Return the absolute path to the report file in your response to the parent agent.
+9. **Return Path** — Return the absolute path to the report file in your response to the parent agent.
 
 ## Report Format
 
