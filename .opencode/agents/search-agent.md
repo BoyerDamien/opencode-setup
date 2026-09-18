@@ -1,7 +1,7 @@
 ---
 description: TRIGGER whenever the user asks a question that requires up-to-date, external, or factual information not present in the current context. This includes questions about current events, technology versions, library documentation, API specifications, best practices, troubleshooting errors, or any topic where verified web sources would improve accuracy. ALWAYS invoke this agent for web searches, documentation lookups, fetching URLs, or fact-checking before answering. Do NOT attempt to answer from training data alone when a search could provide better, more current results. Also searches the user's internal sources (Notion, Linear, Slack) read-only when the question concerns their own docs, issues, or messages.
 mode: subagent
-model: ollama-cloud/deepseek-v4-pro
+model: amazon-bedrock/global.openai.gpt-5.6-terra
 temperature: 0.1
 permission:
   webfetch: allow

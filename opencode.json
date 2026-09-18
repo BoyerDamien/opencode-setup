@@ -55,6 +55,11 @@
       "url": "https://mcp.linear.app/mcp",
       "enabled": true
     },
+    "metabase": {
+      "type": "remote",
+      "url": "https://bi.electratools.com/api/metabase-mcp",
+      "enabled": true
+    },
     "mermaid": {
       "type": "remote",
       "url": "https://mcp.mermaid.ai/mcp",
@@ -81,7 +86,7 @@
     "mermaid_*": "allow"
   },
   "compaction": {
-    "auto": true,
+    "auto": false,
     "prune": true,
     "preserve_recent_tokens": 4000,
     "reserved": 2000

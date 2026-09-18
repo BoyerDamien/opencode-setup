@@ -59,7 +59,7 @@ dispatches via the `task` tool.
 | `main`       | `amazon-bedrock/eu.anthropic.claude-sonnet-5`                  | Standard implementer: integration, multi-file, debugging    |
 | `fast`       | `amazon-bedrock/eu.anthropic.claude-haiku-4-5-20251001-v1:0`   | Mechanical implementer: 1-2 files, complete spec             |
 | `builder`    | `amazon-bedrock/eu.anthropic.claude-sonnet-5`                  | Hard implementer: design judgment, fix-loop rounds 4-5       |
-| `advisor`    | `ollama-cloud/glm-5.2`                                         | Read-only review, advice, architecture (never edits)         |
+| `advisor`       | `amazon-bedrock/global.openai.gpt-5.6-sol`                    | Read-only review, advice, architecture (never edits)         |
 
 Decision table (Superpowers "Model Selection"):
 

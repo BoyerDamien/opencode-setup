@@ -1,7 +1,7 @@
 ---
-description: Read-only software architect (GLM-5.2) that runs a structural review gate between the spec and the implementation plan. Dispatched by the controller on the architectural path to review a validated spec (blast radius, interface risks, over-engineering flags) and return a verdict. Distinct from advisor, which reviews code downstream after it exists.
+description: Read-only software architect (GPT-5.6 Sol via Bedrock) that runs a structural review gate between the spec and the implementation plan. Dispatched by the controller on the architectural path to review a validated spec (blast radius, interface risks, over-engineering flags) and return a verdict. Distinct from advisor, which reviews code downstream after it exists.
 mode: subagent
-model: ollama-cloud/glm-5.2
+model: amazon-bedrock/global.openai.gpt-5.6-sol
 temperature: 0.3
 permission:
   write:
