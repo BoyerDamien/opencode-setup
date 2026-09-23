@@ -13,14 +13,14 @@ Découpe par headings Markdown (`#`, `##`, `###`). Redécoupe les sections trop 
 2. Traite chaque section dans l’ordre après l’avoir marquée `in_progress`.
 
 **Mode interactif :**
-   a. Applique le **Test de nécessité de suppression**, puis affiche l’original et la proposition — ou propose de passer une section déjà concise.
+   a. Applique le **Test de nécessité de suppression**. Si un changement de format de sortie est envisagé, choisis-le avec `presentation-formats.md` ; si Mermaid semble adapté et que la cible est inconnue, demande où le contenu sera lu avant de proposer la sortie finale. Affiche ensuite l’original et la proposition — ou propose de passer une section déjà concise.
    b. Attends : valider, modifier ou passer.
    c. Si validé, édite immédiatement. Cherche les termes significatifs retirés dans les sections restantes et propose un correctif si nécessaire.
    d. Vérifie les chemins ; supprime-les ou généralise-les s’ils ne sont pas accessibles.
    e. Marque la section `completed`, puis demande à poursuivre.
 
 **Mode automatique :**
-   a. Applique le **Test de nécessité de suppression**, puis condense sans attendre de validation.
+   a. Applique le **Test de nécessité de suppression**. Si un changement de format de sortie est envisagé, choisis-le avec `presentation-formats.md` ; si Mermaid semble adapté et que la cible est inconnue, demande où le contenu sera lu avant d’appliquer la sortie finale. Cette question détermine uniquement le rendu, sans validation éditoriale ; après la réponse — ou dans les autres cas — condense sans validation section par section.
    b. Cherche les termes retirés dans les sections restantes et corrige automatiquement si nécessaire.
    c. Vérifie les chemins et supprime-les ou généralise-les s’ils ne sont pas accessibles.
    d. Marque la section `completed` et passe à la suivante.
