@@ -2,6 +2,8 @@
 
 Règles à appliquer lors de la condensation de tout contenu (doc long, commentaire, PR, ticket, commit). Référencé par `SKILL.md` — à lire avant de commencer toute condensation.
 
+Le format d’affichage de la sortie suit `presentation-formats.md`.
+
 ## Règles de base
 
 | Don't | Do |

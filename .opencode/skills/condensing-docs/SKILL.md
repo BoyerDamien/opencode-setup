@@ -27,7 +27,7 @@ Classe le contenu selon sa structure et sa longueur, jamais selon sa source.
 
 ## Règles de condensation
 
-Avant de condenser, charge `references/patterns.md` et `references/guardrails.md`. Les garde-fous priment en cas de conflit.
+Avant de condenser, charge `references/patterns.md` et `references/guardrails.md`. Si la condensation peut changer le format de présentation de la sortie, charge aussi `references/presentation-formats.md`. Les garde-fous priment en cas de conflit.
 
 Condense uniquement la prose. Préserve les blocs de code, tableaux de référence et frontmatter YAML.
 
