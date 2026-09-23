@@ -1,6 +1,6 @@
 # Choisir le format de présentation
 
-Ce guide choisit le format de la **sortie condensée**. Il ne modifie pas les protections de contenu : code, tableaux de référence et frontmatter restent préservés.
+Ce guide choisit le format de la **sortie condensée**. Il ne modifie pas les protections de contenu : code et frontmatter restent immuables ; les tableaux existants suivent la règle ci-dessous.
 
 ## Cadre de décision
 
@@ -35,6 +35,14 @@ Si le rendu est inconnu ou non pris en charge, utilise le repli portable : `**Te
 5. Compare-t-on chaque entité sur au moins trois attributs liés ? Utilise un tableau simple avec en-têtes explicites.
 6. Les relations elles-mêmes sont-elles l’information — embranchement, interaction, dépendance, hiérarchie ou états ? Évalue Mermaid.
 7. Le format reste-t-il accessible ? Préfère l’équivalent textuel si la lisibilité ou le rendu n’est pas assuré.
+
+## Reformatage des tableaux existants
+
+1. Réapplique ce cadre à l’information du tableau. S’il sélectionne un tableau — notamment avec au moins trois attributs liés par entité — conserve le tableau.
+2. Seulement en mode interactif, s’il sélectionne un autre format, propose un reformatage complet ; la personne valide avant toute édition.
+3. Pour un tableau conservé — par défaut, en mode automatique ou après refus d’un reformatage interactif — conserve sa structure. Condense seulement la prose des cellules ; préserve en-têtes, valeurs numériques ou littérales, cellules vides significatives, unités, exceptions, contraintes et ordre significatif des lignes et des colonnes. Ne transforme pas un tableau multicolonnes en prose dense.
+4. En mode automatique, ne reformate jamais un tableau existant.
+5. Ne supprime aucun tableau, sauf par un reformatage complet interactif autorisé.
 
 ## Mermaid : conditions et accessibilité
 

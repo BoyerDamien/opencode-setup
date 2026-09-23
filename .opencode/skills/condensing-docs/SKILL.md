@@ -29,7 +29,7 @@ Classe le contenu selon sa structure et sa longueur, jamais selon sa source.
 
 Avant de condenser, charge `references/patterns.md` et `references/guardrails.md`. Si la condensation peut changer le format de présentation de la sortie, charge aussi `references/presentation-formats.md`. Les garde-fous priment en cas de conflit.
 
-Condense uniquement la prose. Préserve les blocs de code, tableaux de référence et frontmatter YAML.
+Condense uniquement la prose. Les blocs de code et le frontmatter YAML restent immuables. Les tableaux existants conservent leur structure ; la prose de leurs cellules peut être condensée en préservant en-têtes, valeurs numériques ou littérales, cellules vides significatives, unités, exceptions, contraintes et ordre significatif des lignes et des colonnes. Seulement en mode interactif, ils peuvent être reformatés si `presentation-formats.md`, réappliqué à leur information, sélectionne un format non tabulaire ; ne les reformate jamais en mode automatique.
 
 ## Workflow
 
