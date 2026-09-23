@@ -2,7 +2,6 @@
 description: Capable implementer (Claude Sonnet 5 via Bedrock) for hard implementation tasks. Dispatched as a subagent by Superpowers fix-loop escalation (rounds 4-5) and heavy design/architecture work that writes code. The read-only advisor (advisor.md) is used for reviews instead.
 mode: subagent
 model: amazon-bedrock/eu.anthropic.claude-sonnet-5
-temperature: 0.3
 permission:
   edit: allow
   bash:

@@ -1,8 +1,7 @@
 ---
 description: Read-only advisor for reviews, advice, and architecture. Invoked by the ask_advisor tool when the main agent needs a second opinion. Can read files and run read-only commands, but never modifies anything.
 mode: subagent
-model: amazon-bedrock/global.openai.gpt-5.6-sol
-temperature: 0.4
+model: ollama-cloud/glm-5.3
 permission:
   edit: deny
   bash:

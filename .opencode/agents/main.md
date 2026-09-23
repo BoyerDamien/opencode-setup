@@ -2,7 +2,6 @@
 description: Standard-tier implementer (Claude Sonnet 5 via Bedrock). Dispatched as a subagent by the controller for integration/judgment tasks (multi-file coordination, pattern matching, debugging).
 mode: subagent
 model: amazon-bedrock/eu.anthropic.claude-sonnet-5
-temperature: 0.3
 permission:
   bash:
     "*": allow
