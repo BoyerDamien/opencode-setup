@@ -10,7 +10,10 @@ Règles à appliquer lors de la condensation de tout contenu (doc long, commenta
 | Lien intentionnel (`[doc](https://...)`) qui porte l'information | Garde-le — ce n'est pas une référence fragile |
 | Phrase longue/complexe, subordonnées imbriquées | Découpe en phrases courtes ou liste à puces |
 | Plusieurs formulations de la même idée | Garde la plus courte |
+| **Test de nécessité de suppression** — mot, idée, phrase ou détail explicatif candidat | Supprime-le seulement si le paragraphe reste compréhensible, exact et actionnable ; garde ou reformule plus concisément toute dépendance implicite ou contrainte d'implémentation |
 | Détails d'implémentation non essentiels au message | Garde seulement la conclusion/règle/décision |
+
+**Atomes techniques dans la prose** (code inline ou code cité, commandes, chemins requis, identifiants, endpoints, noms de config, messages d'erreur) : supprime-les seulement s'ils sont inutiles pour le propos ; s'ils restent, conserve-les verbatim. Les blocs de code restent intouchables selon `SKILL.md`.
 
 ## Patterns issus de la recherche (voir `docs/research/condensing-technical-docs.md`)
 

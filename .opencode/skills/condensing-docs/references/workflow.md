@@ -13,14 +13,14 @@ Découpe selon les headings markdown (`#`, `##`, `###`). Section trop longue →
 2. Pour chaque section, dans l'ordre, marque-la `in_progress` puis :
 
 **Mode interactif :**
-   a. Affiche l'original et une proposition condensée — ou signale que la section est déjà concise et propose de passer.
+   a. Avant de proposer ou d'appliquer la condensation, applique le **Test de nécessité de suppression** défini dans `patterns.md` à chaque élément candidat, puis affiche l'original et une proposition condensée — ou signale que la section est déjà concise et propose de passer.
    b. Attend la validation (valider / modifier / passer).
    c. Si validé : applique **immédiatement** l'édition — jamais après plusieurs sections regroupées ni en fin de parcours — puis `grep` les sections restantes pour tout terme significatif retiré. Si trouvé, signale-le avec un correctif proposé avant de continuer.
    d. Vérifie l'accessibilité des chemins référencés dans le texte condensé (voir `guardrails.md`). Si un chemin ne passe pas, le supprime ou le généralise avant de continuer.
    e. Marque la section `completed`, demande si on continue avec la section suivante.
 
 **Mode automatique :**
-   a. Applique directement la condensation proposée, sans affichage ni attente de validation.
+   a. Avant de proposer ou d'appliquer la condensation, applique le **Test de nécessité de suppression** défini dans `patterns.md` à chaque élément candidat, puis applique directement la condensation proposée, sans affichage ni attente de validation.
    b. `grep` les sections restantes pour tout terme significatif retiré ; si trouvé, applique automatiquement le correctif, sans s'arrêter.
    c. Vérifie l'accessibilité des chemins référencés dans le texte condensé (voir `guardrails.md`). Si un chemin ne passe pas, le supprime ou le généralise automatiquement, sans s'arrêter.
    d. Marque la section `completed`, passe à la suivante.
