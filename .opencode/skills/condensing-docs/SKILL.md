@@ -16,20 +16,20 @@ Classe le contenu selon sa structure et sa longueur, jamais selon sa source.
 
 ## Récupération de la source
 
-| Entrée | Action |
-|---|---|
-| Chemin local | `read` le fichier, édite en place avec `edit` |
-| URL distante | fetch le contenu, condensation affichée en chat (pas d'édition en place possible) |
-| Texte collé | traité directement, version condensée retournée en chat |
-| Commentaire/issue Linear ou Notion existant | Fetch via tool plateforme (ex. `linear_get_issue`, `notion_notion-get-comments`), condensation, **écriture automatique** via le tool d'écriture correspondant (ex. `linear_save_comment`, `linear_save_issue`, `notion_notion-create-comment` avec l'id du commentaire pour update) |
-| Commentaire/PR/issue GitHub, message Slack | Fetch via tool de lecture (ex. `mermaid_get_pull_comments`, `mermaid_get_issue_comments`, `slack_read_thread`), condensation **affichée en chat uniquement** — aucun tool d'édition de commentaire/message existant n'est disponible pour ces plateformes, donc pas d'écriture automatique possible |
-| Commit message (brouillon avant `git commit`) | Traité comme texte collé, condensation affichée en chat — l'utilisateur committe lui-même |
+- **Chemin local** : lis le fichier avec `read`, puis édite-le en place avec `edit`.
+- **URL distante** : récupère le contenu et affiche la condensation dans le chat ; pas d’édition en place.
+- **Texte collé** : traite-le directement et retourne la version condensée dans le chat.
+- **Commentaire ou issue Linear/Notion** : récupère le contenu avec le tool de la plateforme, par exemple `linear_get_issue` ou `notion_notion-get-comments`, puis écris automatiquement la condensation avec le tool correspondant, par exemple `linear_save_comment`, `linear_save_issue` ou `notion_notion-create-comment`. Pour mettre à jour un commentaire Notion existant, appelle `notion_notion-create-comment` avec l’ID du commentaire existant ; ne crée pas de doublon.
+- **Commentaire, PR ou issue GitHub ; message Slack** : récupère le contenu avec un tool de lecture, par exemple `mermaid_get_pull_comments`, `mermaid_get_issue_comments` ou `slack_read_thread`, puis affiche la condensation dans le chat. Aucun tool d’édition n’est disponible.
+- **Brouillon de message de commit** : traite-le comme du texte collé et affiche la condensation ; l’utilisateur effectue le commit.
 
 ## Règles de condensation
 
-Avant de condenser, charge `references/patterns.md` et `references/guardrails.md`. Si la condensation peut changer le format de présentation de la sortie, charge aussi `references/presentation-formats.md`. Les garde-fous priment en cas de conflit.
+Charge `references/patterns.md` et `references/guardrails.md`. Si la condensation peut changer le format de présentation de la sortie, charge aussi `references/presentation-formats.md`. Les garde-fous priment.
 
-Condense uniquement la prose. Les blocs de code et le frontmatter YAML restent immuables. Les tableaux existants conservent leur structure ; la prose de leurs cellules peut être condensée en préservant en-têtes, valeurs numériques ou littérales, cellules vides significatives, unités, exceptions, contraintes et ordre significatif des lignes et des colonnes. Seulement en mode interactif, ils peuvent être reformatés si `presentation-formats.md`, réappliqué à leur information, sélectionne un format non tabulaire ; ne les reformate jamais en mode automatique.
+- Condense uniquement la prose ; les blocs de code et le frontmatter YAML restent immuables.
+- Conserve la structure des tableaux existants. Tu peux condenser la prose de leurs cellules, sans modifier les en-têtes, valeurs, cellules vides significatives, unités, exceptions, contraintes ni l’ordre des lignes et colonnes.
+- En mode interactif seulement, reformate un tableau si `presentation-formats.md`, réappliqué à son information, sélectionne un format non tabulaire ; ne les reformate jamais en mode automatique.
 
 ## Workflow
 

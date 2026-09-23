@@ -8,22 +8,26 @@ Découpe par headings Markdown (`#`, `##`, `###`). Redécoupe les sections trop 
 
 ## Étapes
 
-0. Classe le contenu selon `SKILL.md`. Pour un doc long, demande le mode ; pour un contenu court, utilise le mode automatique.
+0. Classe le contenu selon `SKILL.md` : demande le mode pour un doc long ; utilise l’automatique pour un contenu court.
 1. Découpe le document et crée une todo list, une entrée par section.
 2. Traite chaque section dans l’ordre après l’avoir marquée `in_progress`.
 
 **Mode interactif :**
-   a. Applique le **Test de nécessité de suppression**. Si un changement de format de sortie est envisagé, choisis-le avec `presentation-formats.md` ; si Mermaid semble adapté et que la cible est inconnue, demande où le contenu sera lu avant de proposer la sortie finale. Affiche ensuite l’original et la proposition — ou propose de passer une section déjà concise.
-   b. Attends : valider, modifier ou passer.
-   c. Si validé, édite immédiatement. Cherche les termes significatifs retirés dans les sections restantes et propose un correctif si nécessaire.
-   d. Vérifie les chemins ; supprime-les ou généralise-les s’ils ne sont pas accessibles.
-   e. Marque la section `completed`, puis demande à poursuivre.
+   a. Applique le **Test de nécessité de suppression**. Si un changement de format de sortie est envisagé, choisis-le avec `presentation-formats.md`.
+   b. Si Mermaid semble adapté et que la cible est inconnue, demande où le contenu sera lu avant de proposer la sortie finale.
+   c. Affiche l’original et la proposition, ou propose de passer une section déjà concise.
+   d. Attends : valider, modifier ou passer.
+   e. Si validé, édite immédiatement. Cherche les termes significatifs retirés dans les sections restantes et propose un correctif si nécessaire.
+   f. Vérifie les chemins ; supprime-les ou généralise-les s’ils ne sont pas accessibles.
+   g. Marque la section `completed`, puis demande à poursuivre.
 
 **Mode automatique :**
-   a. Applique le **Test de nécessité de suppression**. Si un changement de format de sortie est envisagé, choisis-le avec `presentation-formats.md` ; si Mermaid semble adapté et que la cible est inconnue, demande où le contenu sera lu avant d’appliquer la sortie finale. Cette question détermine uniquement le rendu, sans validation éditoriale ; après la réponse — ou dans les autres cas — condense sans validation section par section.
-   b. Cherche les termes retirés dans les sections restantes et corrige automatiquement si nécessaire.
-   c. Vérifie les chemins et supprime-les ou généralise-les s’ils ne sont pas accessibles.
-   d. Marque la section `completed` et passe à la suivante.
+   a. Applique le **Test de nécessité de suppression**. Si un changement de format de sortie est envisagé, choisis-le avec `presentation-formats.md`.
+   b. Si Mermaid semble adapté et que la cible est inconnue, demande où le contenu sera lu et attends obligatoirement sa réponse avant d’appliquer la sortie finale ; cette question concerne le rendu, pas la validation éditoriale.
+   c. Après cette réponse — ou si aucune question n’était nécessaire — condense sans validation section par section.
+   d. Cherche les termes significatifs retirés dans les sections restantes et corrige automatiquement si nécessaire.
+   e. Vérifie les chemins ; supprime-les ou généralise-les s’ils ne sont pas accessibles.
+   f. Marque la section `completed` et passe à la suivante.
 
 3. Fin :
    - **Interactif** : pas de résumé sans demande explicite.
