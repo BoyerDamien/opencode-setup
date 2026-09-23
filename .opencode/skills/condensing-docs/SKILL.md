@@ -9,14 +9,10 @@ Condense toute production écrite destinée à des humains : documents markdown 
 
 ## Type de contenu
 
-Le type dépend de la structure et de la longueur du contenu — jamais de la source (fichier, URL, texte collé, commentaire, ticket...).
+Classe le contenu selon sa structure et sa longueur, jamais selon sa source.
 
-**Règle de classification :** `doc long structuré` si le contenu a **≥2 headings markdown** (`#`/`##`/`###`) **OU ≥300 mots**. Sinon `court/faible impact`.
-
-| Type | Comportement |
-|---|---|
-| **Doc long structuré** | Demande le mode (interactif/auto), découpage en sections + todo list, validation ou grep selon le mode choisi |
-| **Court / faible impact** | Mode automatique forcé (question du choix de mode sautée), même workflow que les docs longs : découpage en sections + todo list, boucle en mode automatique (grep de cohérence + vérification d'accessibilité des chemins), résumé final systématique |
+- **Doc long structuré** : au moins 2 headings Markdown ou 300 mots. Demande le mode, découpe en sections et crée une todo list.
+- **Court / faible impact** : sinon. Utilise directement le mode automatique, avec les mêmes contrôles et un résumé final.
 
 ## Récupération de la source
 
@@ -31,21 +27,19 @@ Le type dépend de la structure et de la longueur du contenu — jamais de la so
 
 ## Règles de condensation
 
-Charge `references/patterns.md` avant de condenser — liste complète des règles Don't/Do (règles de base + patterns validés par la recherche en rédaction technique).
+Avant de condenser, charge `references/patterns.md` et `references/guardrails.md`. Les garde-fous priment en cas de conflit.
 
-Charge aussi `references/guardrails.md` — garde-fous obligatoires (anti-sur-condensation, style télégraphique, accessibilité des chemins). Ces contraintes priment sur les patterns stylistiques en cas de conflit.
-
-Seule la prose est condensée. Intouchables : blocs de code, tableaux de référence, frontmatter YAML.
+Condense uniquement la prose. Préserve les blocs de code, tableaux de référence et frontmatter YAML.
 
 ## Workflow
 
-Charge `references/workflow.md` avant de commencer — découpage en sections, choix du mode, et boucles interactif/automatique complètes (validation, cohérence, accessibilité des chemins).
+Charge `references/workflow.md` avant de commencer. Il définit le découpage, le choix du mode et les contrôles par section.
 
 ## Ce que le skill ne fait pas (v1)
 
 - Ne réorganise ni ne fusionne les sections.
-- Ne détecte pas les ruptures de cohérence vers des sections déjà éditées (seulement vers les sections restantes).
-- En mode interactif, ne produit pas de résumé automatique de fin (sauf demande explicite).
-- Ne propose pas d'édition en place pour les plateformes sans tool d'écriture de commentaire (GitHub, Slack) — affichage en chat seulement.
-- Ne committe jamais automatiquement à la place de l'utilisateur (commit messages toujours affichés en chat, jamais exécutés).
-- Ne vérifie pas les permissions d'accès sur les plateformes externes (Notion, Linear, Slack, GitHub). La vérification d'accessibilité (existant + committé + pushé) ne couvre que les chemins de fichiers du dépôt git, pas les liens/documents externes.
+- Vérifie la cohérence seulement avec les sections restantes.
+- En mode interactif, ne produit pas de résumé final sans demande explicite.
+- Pour GitHub et Slack, affiche la condensation dans le chat : aucun tool d’édition n’est disponible.
+- Ne committe jamais ; les messages de commit restent affichés dans le chat.
+- Vérifie uniquement les chemins Git existants, commités et poussés, pas les permissions ou ressources externes.

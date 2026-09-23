@@ -15,7 +15,7 @@ Règles à appliquer lors de la condensation de tout contenu (doc long, commenta
 
 **Atomes techniques dans la prose** (code inline ou code cité, commandes, chemins requis, identifiants, endpoints, noms de config, messages d'erreur) : supprime-les seulement s'ils sont inutiles pour le propos ; s'ils restent, conserve-les verbatim. Les blocs de code restent intouchables selon `SKILL.md`.
 
-## Patterns issus de la recherche (voir `docs/research/condensing-technical-docs.md`)
+## Patterns issus de la recherche
 
 | Don't | Do | Source |
 |---|---|---|
