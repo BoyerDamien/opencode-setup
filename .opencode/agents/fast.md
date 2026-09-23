@@ -1,8 +1,8 @@
 ---
-description: Fast, low-cost agent (Claude Haiku 4.5 via Bedrock) for trivial tasks: lookups, renames, single-file edits, one-line answers.
+description: Fast, low-cost agent (GPT-5.6 Luna via Bedrock, max reasoning) for trivial tasks: lookups, renames, single-file edits, one-line answers.
 mode: subagent
-model: amazon-bedrock/eu.anthropic.claude-haiku-4-5-20251001-v1:0
-temperature: 0.1
+model: amazon-bedrock/global.openai.gpt-5.6-luna
+variant: max
 permission:
   bash:
     "*": allow

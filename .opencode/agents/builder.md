@@ -1,7 +1,7 @@
 ---
-description: Capable implementer (Claude Sonnet 5 via Bedrock) for hard implementation tasks. Dispatched as a subagent by Superpowers fix-loop escalation (rounds 4-5) and heavy design/architecture work that writes code. The read-only advisor (advisor.md) is used for reviews instead.
+description: Capable implementer (GPT-5.6 Terra via Bedrock) for hard implementation tasks. Dispatched as a subagent by Superpowers fix-loop escalation (rounds 4-5) and heavy design/architecture work that writes code. The read-only advisor (advisor.md) is used for reviews instead.
 mode: subagent
-model: amazon-bedrock/eu.anthropic.claude-sonnet-5
+model: amazon-bedrock/global.openai.gpt-5.6-terra
 permission:
   edit: allow
   bash:

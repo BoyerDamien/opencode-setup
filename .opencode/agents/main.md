@@ -1,7 +1,7 @@
 ---
-description: Standard-tier implementer (Claude Sonnet 5 via Bedrock). Dispatched as a subagent by the controller for integration/judgment tasks (multi-file coordination, pattern matching, debugging).
+description: Standard-tier implementer (GPT-5.6 Terra via Bedrock). Dispatched as a subagent by the controller for integration/judgment tasks (multi-file coordination, pattern matching, debugging).
 mode: subagent
-model: amazon-bedrock/eu.anthropic.claude-sonnet-5
+model: amazon-bedrock/global.openai.gpt-5.6-terra
 permission:
   bash:
     "*": allow
