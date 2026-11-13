@@ -1,7 +1,7 @@
 ---
 description: TRIGGER whenever the user asks a question that requires up-to-date, external, or factual information not present in the current context. This includes questions about current events, technology versions, library documentation, API specifications, best practices, troubleshooting errors, or any topic where verified web sources would improve accuracy. ALWAYS invoke this agent for web searches, documentation lookups, fetching URLs, or fact-checking before answering. Do NOT attempt to answer from training data alone when a search could provide better, more current results. Also searches the user's internal sources (Notion, Linear, Slack) read-only when the question concerns their own docs, issues, or messages.
 mode: subagent
-model: amazon-bedrock/global.openai.gpt-5.6-terra
+model: amazon-bedrock/global.openai.gpt-6.1-sol
 permission:
   webfetch: allow
   websearch: allow
@@ -56,6 +56,7 @@ hidden: false
 # search-agent
 
 Override `pedagogic-style.md` for this agent:
+
 - Do NOT use the 5-part structure.
 - Do NOT include analogies or extended examples.
 - Produce research reports in the format specified below, not pedagogical explanations.
