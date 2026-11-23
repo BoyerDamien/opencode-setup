@@ -8,6 +8,7 @@ permission:
   bash:
     "*": deny
     "rg *~/.memory*": allow
+    "gh *": allow
   edit:
     "*": deny
     "docs/research/**": allow
