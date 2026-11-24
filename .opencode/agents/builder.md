@@ -24,8 +24,6 @@ permission:
     "git diff --cached --name-only": allow
     "git add -- *": allow
     "git add -- .": ask
-    "git commit -m *": allow
-    "git commit -m * -*": ask
     "npm test": allow
     "pytest -q": allow
     "gh": deny
@@ -43,9 +41,10 @@ not complete. You write code; you are not a reviewer.
 - Stay in the assigned worktree. Read relevant files before editing. Follow the
   brief's verification requirements, including red/green tests when required.
 - If a local commit is requested, stage only the intended files by explicit path
-  and verify the staged scope first. Leave publication and delegation to the
-  Controller. Use supported local shell forms and wait for confirmation for
-  other forms; the shell rules are not process or network isolation.
+  and verify the staged scope first. Then request confirmation before committing
+  the staged changes. Leave publication and delegation to the Controller. Use
+  supported local shell forms and wait for confirmation for other forms; the
+  shell rules are not process or network isolation.
 - Return `DONE`, `DONE_WITH_CONCERNS`, `BLOCKED`, or `NEEDS_CONTEXT`, any commit
   IDs, a one-line test result, concerns, and the report path if supplied. Write
   the detailed report there: changed files, exact test commands and outputs,
