@@ -1,7 +1,7 @@
 ---
 description: Superpowers controller: primary coordinator that dispatches tiered subagents and never writes code.
 mode: primary
-model: amazon-bedrock/global.openai.gpt-6.1-sol-ultrafast
+model: amazon-bedrock/global.openai.gpt-6.2-sol
 permission:
   bash:
     "*": allow

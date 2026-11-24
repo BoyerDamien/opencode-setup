@@ -55,12 +55,12 @@ dispatches via the `task` tool.
 
 | Agent        | Model                                                     | Role                                                       |
 | ------------ | --------------------------------------------------------- | ---------------------------------------------------------- |
-| `controller` | `amazon-bedrock/global.openai.gpt-6.1-sol-ultrafast`                 | Primary — coordinates, reads plan, dispatches, never codes  |
+| `controller` | `amazon-bedrock/global.openai.gpt-6.2-sol`                 | Primary — coordinates, reads plan, dispatches, never codes  |
 | `main`       | `amazon-bedrock/global.openai.gpt-6.2-sol`                   | Standard implementer: integration, multi-file, debugging    |
 | `fast`       | `amazon-bedrock/global.openai.gpt-6-luna` (variant: max)     | Mechanical implementer: 1-2 files, complete spec             |
-| `builder`    | `amazon-bedrock/global.openai.gpt-6.2-astra-ultrafast`        | Hard implementer: design judgment, fix-loop rounds 4-5       |
-| `architect`  | `amazon-bedrock/global.openai.gpt-6.2-astra-ultrafast`        | Structural review gate between spec and plan (read-only)     |
-| `advisor`    | `amazon-bedrock/global.openai.gpt-6.2-astra-ultrafast`        | Read-only review, advice, architecture (never edits)         |
+| `builder`    | `amazon-bedrock/global.openai.gpt-6.2-astra`        | Hard implementer: design judgment, fix-loop rounds 4-5       |
+| `architect`  | `amazon-bedrock/global.openai.gpt-6.2-astra`        | Structural review gate between spec and plan (read-only)     |
+| `advisor`    | `amazon-bedrock/global.openai.gpt-6.2-astra`        | Read-only review, advice, architecture (never edits)         |
 | `search-agent` | `amazon-bedrock/global.openai.gpt-6.2-sol`                 | External/current research and read-only internal sources    |
 
 Decision table (Superpowers "Model Selection"):

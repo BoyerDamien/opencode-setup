@@ -1,7 +1,7 @@
 ---
 description: Capable implementer for hard implementation tasks. Dispatched as a subagent by Superpowers fix-loop escalation (rounds 4-5) and heavy design/architecture work that writes code. The read-only advisor (advisor.md) is used for reviews instead.
 mode: subagent
-model: amazon-bedrock/global.openai.gpt-6.2-astra-ultrafast
+model: amazon-bedrock/global.openai.gpt-6.2-astra
 permission:
   edit: allow
   bash:
