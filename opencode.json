@@ -86,9 +86,9 @@
     "mermaid_*": "allow"
   },
   "compaction": {
-    "auto": false,
-    "prune": true,
-    "preserve_recent_tokens": 4000,
-    "reserved": 2000
+    "auto": true,
+    "background": false,
+    "buffer": "20%",
+    "keep": { "tokens": 4000 }
   }
 }

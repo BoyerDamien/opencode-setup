@@ -5,6 +5,11 @@
       "action": "plugin.use",
       "resource": "*/opencode/plugins/read-before-edit.js",
       "effect": "deny"
+    },
+    {
+      "action": "plugin.use",
+      "resource": "*/opencode/plugins/auto-compact.js",
+      "effect": "deny"
     }
   ]
 }
