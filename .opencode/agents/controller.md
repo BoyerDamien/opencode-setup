@@ -1,7 +1,7 @@
 ---
 description: Superpowers controller: primary coordinator that dispatches tiered subagents and never writes code.
 mode: primary
-model: amazon-bedrock/global.openai.gpt-6.1-terra
+model: amazon-bedrock/global.openai.gpt-6.1-sol-ultrafast
 permission:
   bash:
     "*": allow
@@ -35,7 +35,7 @@ Choose an agent by task difficulty and always name it explicitly:
 
 | Task difficulty | Dispatch |
 | --- | --- |
-| Mechanical: 1–2 files, complete spec | `fast` |
+| Mechanical only: 1–2 files, complete spec | `fast` |
 | Integration/judgment: multi-file or debugging | `main` |
 | Hard design or broad codebase; fix-loop rounds 4–5 | `builder` |
 | Structural spec review on the architectural path | `architect` |
