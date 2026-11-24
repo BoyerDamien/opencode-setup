@@ -4,7 +4,7 @@
 # mis-pointing symlinks. Exits 1 if any issue is found, 0 if all good.
 set -euo pipefail
 
-GLOBAL="${XDG_CONFIG_HOME:-$HOME}/.config/opencode"
+GLOBAL="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
 
 if [[ ! -d "$GLOBAL" ]]; then
   echo "verify-install: $GLOBAL does not exist — run 'mise install' first" >&2

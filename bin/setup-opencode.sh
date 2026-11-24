@@ -13,7 +13,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-GLOBAL="${XDG_CONFIG_HOME:-$HOME}/opencode"
+GLOBAL="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
 
 # repo-relative source : destination name in ~/.config/opencode/
 LINKS=(
