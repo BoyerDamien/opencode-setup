@@ -73,6 +73,19 @@
         "{env:HOME}/.config/opencode/agent-lsp.json"
       ],
       "enabled": true
+    },
+    "servers": {
+      "chrome-devtools": {
+        "type": "local",
+        "command": [
+          "npx",
+          "-y",
+          "chrome-devtools-mcp@1.14.0",
+          "--isolated",
+          "--no-usage-statistics",
+          "--no-performance-crux"
+        ]
+      }
     }
   },
   "permission": {
